@@ -1,0 +1,35 @@
+﻿@model IEnumerable<MedicalSystemApp.Models.Examination>
+
+@{
+    ViewData["Title"] = "Examinations";
+}
+
+<h1>Examinations</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date/Time</th>
+            <th>Type</th>
+            <th>PatientId</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var exam in Model)
+        {
+            <tr>
+                <td>@exam.ExaminationDateTime</td>
+                <td>@exam.ExaminationType</td>
+                <td>@exam.PatientId</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@exam.Id">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@exam.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@exam.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-primary">Create New Exam</a>

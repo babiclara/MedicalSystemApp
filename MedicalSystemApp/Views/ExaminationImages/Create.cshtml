@@ -1,0 +1,30 @@
+﻿@model MedicalSystemApp.Models.ExaminationImage
+
+@{
+    ViewData["Title"] = "Create Examination Image";
+}
+
+<h1>Create Examination Image</h1>
+<hr />
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="ImagePath" class="form-label fw-bold"></label>
+        <input asp-for="ImagePath" class="form-control" />
+        <span asp-validation-for="ImagePath" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ExaminationId" class="form-label fw-bold"></label>
+        <select asp-for="ExaminationId" class="form-select"
+                asp-items="@(new SelectList(ViewBag.Examinations, "Id", "ExaminationType"))">
+            <option value="">-- Select an Examination --</option>
+        </select>
+        <span asp-validation-for="ExaminationId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</form>

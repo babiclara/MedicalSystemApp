@@ -14,6 +14,6 @@ namespace MedicalSystemApp.Models
         public int ExaminationId { get; set; }
 
         [ForeignKey("ExaminationId")]
-        public virtual Examination Examination { get; set; }
+        public virtual Examination? Examination { get; set; }
     }
 }

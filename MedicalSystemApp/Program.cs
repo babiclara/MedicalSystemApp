@@ -4,7 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using MedicalSystemApp.Data; // Adjust if your DbContext is in a different namespace
+using MedicalSystemApp.Data;
+using MedicalSystemApp.Repositories; // For the repos
+using Npgsql; // If you need any Npgsql specifics (optional)
 
 namespace MedicalSystemApp
 {
@@ -20,21 +22,30 @@ namespace MedicalSystemApp
             // 2) Register your DbContext, using Npgsql for Postgres
             builder.Services.AddDbContext<MedicalDbContext>(options =>
             {
-                options.UseNpgsql(connectionString);
-                // If you want lazy loading, add:
-                // options.UseLazyLoadingProxies();
+                options.UseNpgsql(connectionString)
+                       // Enable lazy loading
+                       .UseLazyLoadingProxies();
             });
 
-            // 3) Add services to the container (MVC)
+            // 3) Register the RepositoryFactory + all your repositories
+            builder.Services.AddScoped<RepositoryFactory>();
+
+            builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+            builder.Services.AddScoped<IPrescriptionRepository, PrescriptionRepository>();
+            builder.Services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
+            builder.Services.AddScoped<IExaminationRepository, ExaminationRepository>();
+            builder.Services.AddScoped<IExaminationImageRepository, ExaminationImageRepository>();
+
+            // 4) Add MVC services
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
 
-            // 4) Configure the HTTP request pipeline
+            // 5) Configure the HTTP request pipeline
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();  // The default HSTS value is 30 days.
+                app.UseHsts();
             }
 
             app.UseHttpsRedirection();
@@ -43,13 +54,13 @@ namespace MedicalSystemApp
             app.UseRouting();
             app.UseAuthorization();
 
-            // 5) Set up default MVC route
+            // 6) Set up the default MVC route
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}"
             );
 
-            // 6) Run the application
+            // 7) Run the application
             app.Run();
         }
     }

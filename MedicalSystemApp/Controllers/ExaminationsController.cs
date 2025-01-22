@@ -5,35 +5,35 @@ using MedicalSystemApp.Repositories;
 
 namespace MedicalSystemApp.Controllers
 {
-    public class PrescriptionsController : Controller
+    public class ExaminationsController : Controller
     {
         private readonly RepositoryFactory _factory;
-        private readonly IPrescriptionRepository _prescriptionRepo;
+        private readonly IExaminationRepository _examRepo;
         private readonly IPatientRepository _patientRepo;
 
-        public PrescriptionsController(RepositoryFactory factory)
+        public ExaminationsController(RepositoryFactory factory)
         {
             _factory = factory;
-            _prescriptionRepo = _factory.CreatePrescriptionRepository();
-            _patientRepo = _factory.CreatePatientRepository(); // needed to list patients
+            _examRepo = _factory.CreateExaminationRepository();
+            _patientRepo = _factory.CreatePatientRepository(); // to load patients
         }
 
         public async Task<IActionResult> Index()
         {
-            var prescriptions = await _prescriptionRepo.GetAllAsync();
-            return View(prescriptions);
+            var exams = await _examRepo.GetAllAsync();
+            return View(exams);
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            var prescription = await _prescriptionRepo.GetByIdAsync(id);
-            if (prescription == null)
+            var exam = await _examRepo.GetByIdAsync(id);
+            if (exam == null)
                 return NotFound();
 
-            return View(prescription);
+            return View(exam);
         }
 
-        // GET: Prescriptions/Create
+        // GET: Examinations/Create
         public async Task<IActionResult> Create()
         {
             var patients = await _patientRepo.GetAllAsync();
@@ -43,50 +43,49 @@ namespace MedicalSystemApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Prescription prescription)
+        public async Task<IActionResult> Create(Examination exam)
         {
             if (!ModelState.IsValid)
             {
-                // Reload patients so the dropdown works again
                 ViewBag.Patients = await _patientRepo.GetAllAsync();
-                return View(prescription);
+                return View(exam);
             }
 
-            await _prescriptionRepo.AddAsync(prescription);
+            await _examRepo.AddAsync(exam);
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            var prescription = await _prescriptionRepo.GetByIdAsync(id);
-            if (prescription == null)
+            var exam = await _examRepo.GetByIdAsync(id);
+            if (exam == null)
                 return NotFound();
 
-            // reload patients
+            // load patients
             ViewBag.Patients = await _patientRepo.GetAllAsync();
-            return View(prescription);
+            return View(exam);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Prescription prescription)
+        public async Task<IActionResult> Edit(int id, Examination exam)
         {
-            if (id != prescription.Id)
-                return BadRequest("Prescription ID mismatch");
+            if (id != exam.Id)
+                return BadRequest("Examination ID mismatch");
 
             if (!ModelState.IsValid)
             {
                 ViewBag.Patients = await _patientRepo.GetAllAsync();
-                return View(prescription);
+                return View(exam);
             }
 
             try
             {
-                await _prescriptionRepo.UpdateAsync(prescription);
+                await _examRepo.UpdateAsync(exam);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await PrescriptionExists(prescription.Id))
+                if (!await ExaminationExists(exam.Id))
                     return NotFound();
                 else
                     throw;
@@ -96,25 +95,24 @@ namespace MedicalSystemApp.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var prescription = await _prescriptionRepo.GetByIdAsync(id);
-            if (prescription == null)
+            var exam = await _examRepo.GetByIdAsync(id);
+            if (exam == null)
                 return NotFound();
 
-            return View(prescription);
+            return View(exam);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _prescriptionRepo.DeleteAsync(id);
+            await _examRepo.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private async Task<bool> PrescriptionExists(int id)
+        private async Task<bool> ExaminationExists(int id)
         {
-            var prescription = await _prescriptionRepo.GetByIdAsync(id);
-            return prescription != null;
+            return (await _examRepo.GetByIdAsync(id)) != null;
         }
     }
 }

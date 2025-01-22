@@ -1,4 +1,52 @@
-﻿<form method="get" action="/Patients/Search">
-    <input type="text" name="query" placeholder="Search by OIB or Last name..." />
-    <button type="submit">Search</button>
+﻿@model IEnumerable<MedicalSystemApp.Models.Patient>
+
+@{
+    ViewData["Title"] = "Patients";
+}
+
+<h1 class="mb-4">Patients</h1>
+
+<!-- A simple search form (if you have a Search action in your controller) -->
+<form method="get" action="/Patients/Search" class="row g-3 mb-3">
+    <div class="col-auto">
+        <input type="text" name="query" class="form-control" placeholder="Search by OIB or Last Name" />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
 </form>
+
+<!-- Link to export CSV (if implemented) -->
+<a asp-action="ExportCsv" class="btn btn-success mb-3">Export Patients as CSV</a>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.FirstName)</th>
+            <th>@Html.DisplayNameFor(m => m.LastName)</th>
+            <th>@Html.DisplayNameFor(m => m.OIB)</th>
+            <th>@Html.DisplayNameFor(m => m.DateOfBirth)</th>
+            <th>@Html.DisplayNameFor(m => m.Gender)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var patient in Model)
+        {
+            <tr>
+                <td>@patient.FirstName</td>
+                <td>@patient.LastName</td>
+                <td>@patient.OIB</td>
+                <td>@patient.DateOfBirth.ToShortDateString()</td>
+                <td>@patient.Gender</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@patient.Id" class="btn btn-sm btn-outline-info">Details</a>
+                    <a asp-action="Edit" asp-route-id="@patient.Id" class="btn btn-sm btn-outline-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@patient.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-primary">Create New Patient</a>

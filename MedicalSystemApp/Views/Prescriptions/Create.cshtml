@@ -1,0 +1,42 @@
+﻿@model MedicalSystemApp.Models.Prescription
+
+@{
+    ViewData["Title"] = "Create Prescription";
+}
+
+<h1>Create Prescription</h1>
+<hr />
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="MedicationName" class="form-label fw-bold"></label>
+        <input asp-for="MedicationName" class="form-control" />
+        <span asp-validation-for="MedicationName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label fw-bold"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DatePrescribed" class="form-label fw-bold"></label>
+        <input asp-for="DatePrescribed" type="date" class="form-control" />
+        <span asp-validation-for="DatePrescribed" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PatientId" class="form-label fw-bold"></label>
+        <select asp-for="PatientId" class="form-select"
+                asp-items="@(new SelectList(ViewBag.Patients, "Id", "LastName"))">
+            <option value="">-- Select a Patient --</option>
+        </select>
+        <span asp-validation-for="PatientId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</form>

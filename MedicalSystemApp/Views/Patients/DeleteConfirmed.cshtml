@@ -1,0 +1,18 @@
+﻿@model MedicalSystemApp.Models.Patient
+
+@{
+    ViewData["Title"] = "Patient Deleted";
+}
+
+<h1>Patient Deleted</h1>
+<hr />
+
+<div class="alert alert-success">
+    <p>The following patient record has been deleted successfully:</p>
+    <ul>
+        <li><strong>Name:</strong> @Model.FirstName @Model.LastName</li>
+        <li><strong>OIB:</strong> @Model.OIB</li>
+    </ul>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">Back to Patients List</a>

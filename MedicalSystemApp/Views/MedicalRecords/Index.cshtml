@@ -1,0 +1,37 @@
+﻿@model IEnumerable<MedicalSystemApp.Models.MedicalRecord>
+
+@{
+    ViewData["Title"] = "Medical Records";
+}
+
+<h1>Medical Records</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Illness Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>PatientId</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var record in Model)
+        {
+            <tr>
+                <td>@record.IllnessName</td>
+                <td>@record.StartDate.ToShortDateString()</td>
+                <td>@(record.EndDate?.ToShortDateString() ?? "ongoing")</td>
+                <td>@record.PatientId</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@record.Id">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@record.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@record.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-primary">Create New Record</a>

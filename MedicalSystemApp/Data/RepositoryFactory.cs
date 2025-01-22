@@ -11,18 +11,29 @@ namespace MedicalSystemApp.Repositories
             _db = db;
         }
 
-        // Patient
         public IPatientRepository CreatePatientRepository()
         {
             return new PatientRepository(_db);
         }
 
-        // Prescription
         public IPrescriptionRepository CreatePrescriptionRepository()
         {
             return new PrescriptionRepository(_db);
         }
 
-        // And so on for other entities...
+        public IMedicalRecordRepository CreateMedicalRecordRepository()
+        {
+            return new MedicalRecordRepository(_db);
+        }
+
+        public IExaminationImageRepository CreateExaminationImageRepository()
+        {
+            return new ExaminationImageRepository(_db);
+        }
+
+        public IExaminationRepository CreateExaminationRepository()
+        {
+            return new ExaminationRepository(_db);
+        }
     }
 }

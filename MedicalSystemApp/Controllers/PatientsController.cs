@@ -1,40 +1,35 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MedicalSystemApp.Models;
 using MedicalSystemApp.Repositories;
+using System.Text;
 
 namespace MedicalSystemApp.Controllers
 {
-    [Authorize]
     public class PatientsController : Controller
     {
         private readonly RepositoryFactory _factory;
         private readonly IPatientRepository _patientRepo;
 
-        // Inject the RepositoryFactory
         public PatientsController(RepositoryFactory factory)
         {
             _factory = factory;
-            // We obtain an instance of PatientRepository here:
             _patientRepo = _factory.CreatePatientRepository();
         }
 
         // GET: Patients
         public async Task<IActionResult> Index()
         {
-            // Instead of _context.Patients, we now use the repository
             var patients = await _patientRepo.GetAllAsync();
             return View(patients);
         }
 
         // GET: Patients/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null) return NotFound();
-
-            var patient = await _patientRepo.GetByIdAsync(id.Value);
-            if (patient == null) return NotFound();
+            var patient = await _patientRepo.GetByIdAsync(id);
+            if (patient == null)
+                return NotFound();
 
             return View(patient);
         }
@@ -58,12 +53,11 @@ namespace MedicalSystemApp.Controllers
         }
 
         // GET: Patients/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null) return NotFound();
-
-            var patient = await _patientRepo.GetByIdAsync(id.Value);
-            if (patient == null) return NotFound();
+            var patient = await _patientRepo.GetByIdAsync(id);
+            if (patient == null)
+                return NotFound();
 
             return View(patient);
         }
@@ -85,24 +79,20 @@ namespace MedicalSystemApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                // We'll do a quick check to see if the patient still exists
-                var exists = await PatientExists(patient.Id);
-                if (!exists)
+                if (!await PatientExists(patient.Id))
                     return NotFound();
                 else
-                    throw; // some other concurrency issue
+                    throw;
             }
-
             return RedirectToAction(nameof(Index));
         }
 
         // GET: Patients/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null) return NotFound();
-
-            var patient = await _patientRepo.GetByIdAsync(id.Value);
-            if (patient == null) return NotFound();
+            var patient = await _patientRepo.GetByIdAsync(id);
+            if (patient == null)
+                return NotFound();
 
             return View(patient);
         }
@@ -112,18 +102,54 @@ namespace MedicalSystemApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // Optionally retrieve the patient for a "DeleteConfirmed" page:
+            // var patient = await _patientRepo.GetByIdAsync(id);
+            // if (patient == null) return NotFound();
             await _patientRepo.DeleteAsync(id);
+
+            // return View("DeleteConfirmed", patient); // if you want to show a separate "deleted" page
             return RedirectToAction(nameof(Index));
         }
 
-        // Example "Search" or "Find" method if needed:
-        public async Task<IActionResult> Search(string q)
+        // GET: Patients/ExportCsv
+        [HttpGet]
+        public async Task<IActionResult> ExportCsv()
         {
-            var results = await _patientRepo.SearchAsync(q);
+            var patients = await _patientRepo.GetAllAsync();
+
+            // Build CSV in memory
+            var sb = new StringBuilder();
+            sb.AppendLine("Id,FirstName,LastName,OIB,DateOfBirth,Gender");
+            foreach (var p in patients)
+            {
+                sb.AppendLine($"{p.Id},{p.FirstName},{p.LastName},{p.OIB},{p.DateOfBirth:yyyy-MM-dd},{p.Gender}");
+            }
+
+            // Return CSV as file
+            var csvBytes = Encoding.UTF8.GetBytes(sb.ToString());
+            var fileName = $"Patients_{DateTime.Now:yyyyMMdd}.csv";
+            return File(csvBytes, "text/csv", fileName);
+        }
+
+        // GET: Patients/Search?query=someText
+        [HttpGet]
+        public async Task<IActionResult> Search(string? query)
+        {
+            // If your repository doesn't have a SearchAsync, create it. 
+            // Example below (pseudocode):
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                // Return empty or all patients
+                // return View("Index", new List<Patient>());
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Suppose your IPatientRepository has: Task<List<Patient>> SearchAsync(string text)
+            var results = await _patientRepo.SearchAsync(query);
             return View("Index", results);
         }
 
-        // Helper method to check if a patient exists
+        // Helper method to check existence
         private async Task<bool> PatientExists(int id)
         {
             var patient = await _patientRepo.GetByIdAsync(id);

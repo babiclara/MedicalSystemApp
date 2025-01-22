@@ -1,0 +1,20 @@
+﻿@model string // or any custom view model
+
+@{
+    ViewData["Title"] = "Patients CSV Export";
+}
+
+<h1>Export Patients as CSV</h1>
+<hr />
+
+<div class="alert alert-info">
+    <p>Your CSV file is ready. Click below to download.</p>
+</div>
+
+<p>
+    <!-- If your ExportCsv action actually returns a File() directly,
+         you wouldn't need this. But if you want a link: -->
+    <a asp-action="DownloadCsv" class="btn btn-success">Download CSV</a>
+</p>
+
+<a asp-action="Index" class="btn btn-secondary">Back to Patients List</a>

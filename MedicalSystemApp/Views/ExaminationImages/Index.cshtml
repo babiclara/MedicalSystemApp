@@ -1,0 +1,33 @@
+﻿@model IEnumerable<MedicalSystemApp.Models.ExaminationImage>
+
+@{
+    ViewData["Title"] = "Examination Images";
+}
+
+<h1>Examination Images</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ImagePath</th>
+            <th>ExaminationId</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var img in Model)
+        {
+            <tr>
+                <td>@img.ImagePath</td>
+                <td>@img.ExaminationId</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@img.Id">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@img.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@img.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-primary">Add New Image</a>

@@ -1,0 +1,36 @@
+﻿@model MedicalSystemApp.Models.Examination
+
+@{
+    ViewData["Title"] = "Create Examination";
+}
+
+<h1>Create Examination</h1>
+<hr />
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="ExaminationDateTime" class="form-label fw-bold"></label>
+        <input asp-for="ExaminationDateTime" type="datetime-local" class="form-control" />
+        <span asp-validation-for="ExaminationDateTime" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ExaminationType" class="form-label fw-bold"></label>
+        <input asp-for="ExaminationType" class="form-control" placeholder="e.g. KRV, X-RAY, GP, etc." />
+        <span asp-validation-for="ExaminationType" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PatientId" class="form-label fw-bold"></label>
+        <select asp-for="PatientId" class="form-select"
+                asp-items="@(new SelectList(ViewBag.Patients, "Id", "LastName"))">
+            <option value="">-- Select Patient --</option>
+        </select>
+        <span asp-validation-for="PatientId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</form>

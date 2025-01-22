@@ -1,0 +1,32 @@
+﻿@model MedicalSystemApp.Models.Examination
+
+@{
+    ViewData["Title"] = "Examination Details";
+}
+
+<h1>Examination Details</h1>
+
+<dl class="dl-horizontal">
+    <dt>Date/Time</dt>
+    <dd>@Model.ExaminationDateTime</dd>
+
+    <dt>Type</dt>
+    <dd>@Model.ExaminationType</dd>
+
+    <dt>PatientId</dt>
+    <dd>@Model.PatientId</dd>
+</dl>
+
+@if (Model.ExaminationImages != null && Model.ExaminationImages.Any())
+{
+    <h4>Examination Images</h4>
+    <ul>
+        @foreach (var image in Model.ExaminationImages)
+        {
+            <li>@image.ImagePath</li>
+        }
+    </ul>
+}
+
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>

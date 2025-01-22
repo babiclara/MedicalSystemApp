@@ -1,0 +1,47 @@
+﻿@model MedicalSystemApp.Models.MedicalRecord
+
+@{
+    ViewData["Title"] = "Medical Record Details";
+}
+
+<h1 class="mb-3">Medical Record Details</h1>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h4 class="card-title">@Model.IllnessName</h4>
+        <dl class="row">
+            <dt class="col-sm-3">Start Date</dt>
+            <dd class="col-sm-9">@Model.StartDate.ToShortDateString()</dd>
+
+            <dt class="col-sm-3">End Date</dt>
+            <dd class="col-sm-9">@(Model.EndDate?.ToShortDateString() ?? "Ongoing")</dd>
+
+            <dt class="col-sm-3">Patient</dt>
+            <dd class="col-sm-9">@Model.Patient?.LastName</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mb-3">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
+
+@if (Model.Patient != null)
+{
+    <h4>Patient Details</h4>
+    <ul class="list-group mb-3">
+        <li class="list-group-item">
+            <strong>Name:</strong> @Model.Patient.FirstName @Model.Patient.LastName
+        </li>
+        <li class="list-group-item">
+            <strong>OIB:</strong> @Model.Patient.OIB
+        </li>
+        <li class="list-group-item">
+            <strong>Date of Birth:</strong> @Model.Patient.DateOfBirth.ToShortDateString()
+        </li>
+        <li class="list-group-item">
+            <strong>Gender:</strong> @Model.Patient.Gender
+        </li>
+    </ul>
+}

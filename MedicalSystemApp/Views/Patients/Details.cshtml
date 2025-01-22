@@ -1,0 +1,70 @@
+﻿@model MedicalSystemApp.Models.Patient
+
+@{
+    ViewData["Title"] = "Patient Details";
+}
+
+<h1 class="mb-3">Patient Details</h1>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h4 class="card-title">@Model.FirstName @Model.LastName</h4>
+        <dl class="row">
+            <dt class="col-sm-3">OIB</dt>
+            <dd class="col-sm-9">@Model.OIB</dd>
+
+            <dt class="col-sm-3">Date of Birth</dt>
+            <dd class="col-sm-9">@Model.DateOfBirth.ToShortDateString()</dd>
+
+            <dt class="col-sm-3">Gender</dt>
+            <dd class="col-sm-9">@Model.Gender</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mb-3">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
+
+<!-- Lazy-loaded relationships -->
+@if (Model.MedicalRecords?.Any() == true)
+{
+    <h4>Medical Records</h4>
+    <ul class="list-group mb-3">
+        @foreach (var record in Model.MedicalRecords)
+        {
+            <li class="list-group-item">
+                <strong>@record.IllnessName</strong>
+                (Start: @record.StartDate.ToShortDateString(),
+                End: @(record.EndDate?.ToShortDateString() ?? "ongoing"))
+            </li>
+        }
+    </ul>
+}
+
+@if (Model.Examinations?.Any() == true)
+{
+    <h4>Examinations</h4>
+    <ul class="list-group mb-3">
+        @foreach (var exam in Model.Examinations)
+        {
+            <li class="list-group-item">
+                @exam.ExaminationType on @exam.ExaminationDateTime
+            </li>
+        }
+    </ul>
+}
+
+@if (Model.Prescriptions?.Any() == true)
+{
+    <h4>Prescriptions</h4>
+    <ul class="list-group mb-3">
+        @foreach (var prescription in Model.Prescriptions)
+        {
+            <li class="list-group-item">
+                @prescription.MedicationName (@prescription.DatePrescribed.ToShortDateString())
+            </li>
+        }
+    </ul>
+}

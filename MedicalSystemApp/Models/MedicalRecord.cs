@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MedicalSystemApp.Models
 {
@@ -12,13 +12,17 @@ namespace MedicalSystemApp.Models
         public string IllnessName { get; set; }
 
         [Required]
+        [Column(TypeName = "date")]
         public DateTime StartDate { get; set; }
 
+        [Column(TypeName = "date")]
         public DateTime? EndDate { get; set; }
 
+
+        [Required(ErrorMessage = "Patient is required.")]
         public int PatientId { get; set; }
 
-        [ForeignKey("PatientId")]
-        public virtual Patient Patient { get; set; }
+        public virtual Patient? Patient { get; set; }
+
     }
 }
