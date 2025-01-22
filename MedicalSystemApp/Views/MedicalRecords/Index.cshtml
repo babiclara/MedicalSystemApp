@@ -4,15 +4,15 @@
     ViewData["Title"] = "Medical Records";
 }
 
-<h1>Medical Records</h1>
+<h1 class="mb-4">Medical Records</h1>
 
-<table class="table">
-    <thead>
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
         <tr>
-            <th>Illness Name</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>PatientId</th>
+            <th>@Html.DisplayNameFor(m => m.IllnessName)</th>
+            <th>@Html.DisplayNameFor(m => m.StartDate)</th>
+            <th>@Html.DisplayNameFor(m => m.EndDate)</th>
+            <th>@Html.DisplayNameFor(m => m.PatientId)</th>
             <th></th>
         </tr>
     </thead>
@@ -22,12 +22,12 @@
             <tr>
                 <td>@record.IllnessName</td>
                 <td>@record.StartDate.ToShortDateString()</td>
-                <td>@(record.EndDate?.ToShortDateString() ?? "ongoing")</td>
+                <td>@(record.EndDate?.ToShortDateString() ?? "Ongoing")</td>
                 <td>@record.PatientId</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@record.Id">Details</a> |
-                    <a asp-action="Edit" asp-route-id="@record.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@record.Id">Delete</a>
+                    <a asp-action="Details" asp-route-id="@record.Id" class="btn btn-sm btn-outline-info">Details</a>
+                    <a asp-action="Edit" asp-route-id="@record.Id" class="btn btn-sm btn-outline-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@record.Id" class="btn btn-sm btn-outline-danger">Delete</a>
                 </td>
             </tr>
         }

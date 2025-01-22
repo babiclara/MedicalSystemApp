@@ -9,7 +9,7 @@ namespace MedicalSystemApp.Controllers
     {
         private readonly RepositoryFactory _factory;
         private readonly IExaminationImageRepository _imageRepo;
-        private readonly IExaminationRepository _examRepo; // for listing available examinations
+        private readonly IExaminationRepository _examRepo; 
 
         public ExaminationImagesController(RepositoryFactory factory)
         {
@@ -32,10 +32,8 @@ namespace MedicalSystemApp.Controllers
             return View(image);
         }
 
-        // GET: ExaminationImages/Create
         public async Task<IActionResult> Create()
         {
-            // load all Examinations for dropdown
             var exams = await _examRepo.GetAllAsync();
             ViewBag.Examinations = exams;
             return View();
@@ -47,7 +45,6 @@ namespace MedicalSystemApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // Reload the exams if validation fails
                 ViewBag.Examinations = await _examRepo.GetAllAsync();
                 return View(image);
             }
@@ -62,7 +59,6 @@ namespace MedicalSystemApp.Controllers
             if (image == null)
                 return NotFound();
 
-            // load exams
             var exams = await _examRepo.GetAllAsync();
             ViewBag.Examinations = exams;
 
@@ -119,7 +115,6 @@ namespace MedicalSystemApp.Controllers
             return (existing != null);
         }
 
-        // Example for listing images for a specific exam
         public async Task<IActionResult> ForExamination(int examId)
         {
             var images = await _imageRepo.GetByExaminationIdAsync(examId);

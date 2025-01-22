@@ -46,10 +46,10 @@ namespace MedicalSystemApp.Data
 
             modelBuilder.Entity<Examination>()
                 .Property(e => e.ExaminationDateTime)
-                .HasColumnType("timestamp")
+                .HasColumnType("timestamp without time zone")
                 .HasConversion(
-                    v => v.ToUniversalTime(), 
-                    v => DateTime.SpecifyKind(v, DateTimeKind.Utc) 
+                    v => DateTime.SpecifyKind(v, DateTimeKind.Unspecified),
+                    v => v
                 );
 
             modelBuilder.Entity<ExaminationImage>()

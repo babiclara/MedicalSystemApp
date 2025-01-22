@@ -1,0 +1,38 @@
+﻿@model MedicalSystemApp.Models.Examination
+
+@{
+    ViewData["Title"] = "Edit Examination";
+}
+
+<h1>Edit Examination</h1>
+<hr />
+
+<form asp-action="Edit" method="post" class="row g-3">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="col-md-6">
+        <label asp-for="ExaminationDateTime" class="form-label fw-bold"></label>
+        <input asp-for="ExaminationDateTime" type="date" class="form-control" value="@Model.ExaminationDateTime.ToString("yyyy-MM-dd")" />
+        <span asp-validation-for="ExaminationDateTime" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="ExaminationType" class="form-label fw-bold"></label>
+        <input asp-for="ExaminationType" class="form-control" placeholder="e.g. GP, KRV, X-RAY, etc." />
+        <span asp-validation-for="ExaminationType" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="PatientId" class="form-label fw-bold"></label>
+        <select asp-for="PatientId" class="form-select"
+                asp-items="@(new SelectList(ViewBag.Patients, "Id", "LastName", Model.PatientId))">
+            <option value="">-- Select a Patient --</option>
+        </select>
+        <span asp-validation-for="PatientId" class="text-danger"></span>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</form>

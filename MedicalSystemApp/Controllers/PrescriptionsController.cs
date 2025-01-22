@@ -15,7 +15,7 @@ namespace MedicalSystemApp.Controllers
         {
             _factory = factory;
             _prescriptionRepo = _factory.CreatePrescriptionRepository();
-            _patientRepo = _factory.CreatePatientRepository(); // needed to list patients
+            _patientRepo = _factory.CreatePatientRepository(); 
         }
 
         public async Task<IActionResult> Index()
@@ -33,7 +33,6 @@ namespace MedicalSystemApp.Controllers
             return View(prescription);
         }
 
-        // GET: Prescriptions/Create
         public async Task<IActionResult> Create()
         {
             var patients = await _patientRepo.GetAllAsync();
@@ -47,7 +46,6 @@ namespace MedicalSystemApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // Reload patients so the dropdown works again
                 ViewBag.Patients = await _patientRepo.GetAllAsync();
                 return View(prescription);
             }
@@ -62,7 +60,6 @@ namespace MedicalSystemApp.Controllers
             if (prescription == null)
                 return NotFound();
 
-            // reload patients
             ViewBag.Patients = await _patientRepo.GetAllAsync();
             return View(prescription);
         }

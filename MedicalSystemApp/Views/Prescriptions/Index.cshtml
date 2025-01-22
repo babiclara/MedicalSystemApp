@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<MedicalSystemApp.Models.Prescription>
 
 @{
-    ViewData["Title"] = "Prescriptions - Index";
+    ViewData["Title"] = "Prescriptions";
 }
 
-<h1>Prescriptions</h1>
+<h1 class="mb-4">Prescriptions</h1>
 
-<table class="table">
-    <thead>
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
         <tr>
-            <th>MedicationName</th>
-            <th>Description</th>
-            <th>DatePrescribed</th>
-            <th>PatientId</th>
+            <th>@Html.DisplayNameFor(m => m.MedicationName)</th>
+            <th>@Html.DisplayNameFor(m => m.Description)</th>
+            <th>@Html.DisplayNameFor(m => m.DatePrescribed)</th>
+            <th>@Html.DisplayNameFor(m => m.PatientId)</th>
             <th></th>
         </tr>
     </thead>
@@ -25,13 +25,13 @@
                 <td>@item.DatePrescribed.ToShortDateString()</td>
                 <td>@item.PatientId</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">Details</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<a asp-action="Create" class="btn btn-primary">Create New</a>
+<a asp-action="Create" class="btn btn-primary">Create New Prescription</a>

@@ -15,7 +15,7 @@ namespace MedicalSystemApp.Controllers
         {
             _factory = factory;
             _examRepo = _factory.CreateExaminationRepository();
-            _patientRepo = _factory.CreatePatientRepository(); // to load patients
+            _patientRepo = _factory.CreatePatientRepository();
         }
 
         public async Task<IActionResult> Index()
@@ -33,7 +33,6 @@ namespace MedicalSystemApp.Controllers
             return View(exam);
         }
 
-        // GET: Examinations/Create
         public async Task<IActionResult> Create()
         {
             var patients = await _patientRepo.GetAllAsync();
@@ -51,9 +50,13 @@ namespace MedicalSystemApp.Controllers
                 return View(exam);
             }
 
+            exam.ExaminationDateTime = DateTime.SpecifyKind(exam.ExaminationDateTime, DateTimeKind.Utc);
+
             await _examRepo.AddAsync(exam);
             return RedirectToAction(nameof(Index));
         }
+
+
 
         public async Task<IActionResult> Edit(int id)
         {
@@ -61,7 +64,6 @@ namespace MedicalSystemApp.Controllers
             if (exam == null)
                 return NotFound();
 
-            // load patients
             ViewBag.Patients = await _patientRepo.GetAllAsync();
             return View(exam);
         }
@@ -81,6 +83,7 @@ namespace MedicalSystemApp.Controllers
 
             try
             {
+                exam.ExaminationDateTime = DateTime.SpecifyKind(exam.ExaminationDateTime, DateTimeKind.Utc);
                 await _examRepo.UpdateAsync(exam);
             }
             catch (DbUpdateConcurrencyException)

@@ -8,6 +8,7 @@ namespace MedicalSystemApp.Models
         public int Id { get; set; }
 
         [Required]
+        [Column(TypeName = "timestamp without time zone")]
         public DateTime ExaminationDateTime { get; set; }
 
         [Required]

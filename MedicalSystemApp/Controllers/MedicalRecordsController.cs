@@ -15,7 +15,7 @@ namespace MedicalSystemApp.Controllers
         {
             _factory = factory;
             _recordRepo = _factory.CreateMedicalRecordRepository();
-            _patientRepo = _factory.CreatePatientRepository(); // for listing patients in dropdown
+            _patientRepo = _factory.CreatePatientRepository(); 
         }
 
         public async Task<IActionResult> Index()
@@ -33,10 +33,8 @@ namespace MedicalSystemApp.Controllers
             return View(record);
         }
 
-        // GET: MedicalRecords/Create
         public async Task<IActionResult> Create()
         {
-            // Load all patients for dropdown
             var patients = await _patientRepo.GetAllAsync();
             ViewBag.Patients = patients;
             return View();
@@ -52,7 +50,7 @@ namespace MedicalSystemApp.Controllers
                 return View(record);
             }
 
-            // Convert to UTC and set kind
+
             record.StartDate = DateTime.SpecifyKind(record.StartDate, DateTimeKind.Utc);
             if (record.EndDate.HasValue)
             {
@@ -70,7 +68,6 @@ namespace MedicalSystemApp.Controllers
             if (record == null)
                 return NotFound();
 
-            // Load patients for dropdown in case user wants to change PatientId
             var patients = await _patientRepo.GetAllAsync();
             ViewBag.Patients = patients;
 
@@ -86,7 +83,6 @@ namespace MedicalSystemApp.Controllers
 
             if (!ModelState.IsValid)
             {
-                // Reload patients
                 ViewBag.Patients = await _patientRepo.GetAllAsync();
                 return View(record);
             }
