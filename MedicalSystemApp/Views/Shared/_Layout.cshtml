@@ -5,13 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MedicalSystemApp</title>
 
-    <!-- Bootstrap CSS (local) -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
-    <!-- Site-wide CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
-    <!-- Optional custom stylesheet -->
     <link rel="stylesheet" href="~/MedicalSystemApp.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -27,23 +24,18 @@
 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <!-- Patients -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Patients" asp-action="Index">Patients</a>
                         </li>
-                        <!-- Prescriptions -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Prescriptions" asp-action="Index">Prescriptions</a>
                         </li>
-                        <!-- Medical Records -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="MedicalRecords" asp-action="Index">Medical Records</a>
                         </li>
-                        <!-- Examinations -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Examinations" asp-action="Index">Examinations</a>
                         </li>
-                        <!-- Examination Images -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="ExaminationImages" asp-action="Index">Examination Images</a>
                         </li>
@@ -66,19 +58,14 @@
         </div>
     </footer>
 
-    <!-- Bootstrap JS (local) -->
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Site-wide JS -->
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    <!-- jQuery (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-    <!-- jQuery Validation (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
 
-    <!-- jQuery Validation Unobtrusive (CDN) - 3.2.11 is the latest on cdnjs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
 
     @RenderSection("Scripts", required: false)

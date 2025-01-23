@@ -15,10 +15,8 @@
         <input type="file" id="imageFile" name="imageFile" class="form-control" required onchange="updateImagePath()" />
     </div>
 
-    <!-- Hidden field to store the image path -->
     <input type="hidden" asp-for="ImagePath" id="ImagePath" />
 
-    <!-- Examination Dropdown -->
     <div class="mb-3">
         <label asp-for="ExaminationId" class="form-label fw-bold"></label>
         <select asp-for="ExaminationId" class="form-select"

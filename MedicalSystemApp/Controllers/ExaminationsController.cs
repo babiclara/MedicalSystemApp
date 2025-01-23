@@ -115,7 +115,6 @@ namespace MedicalSystemApp.Controllers
                 return NotFound();
             }
 
-            // Optional: If related images exist, delete their physical files first
             if (exam.ExaminationImages != null && exam.ExaminationImages.Any())
             {
                 foreach (var image in exam.ExaminationImages)

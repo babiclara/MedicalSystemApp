@@ -12,11 +12,8 @@ namespace MedicalSystemApp.Repositories
         Task UpdateAsync(Examination exam);
         Task DeleteAsync(int id);
 
-        // Optional custom methods:
-        // For instance, searching by type
         Task<List<Examination>> GetByTypeAsync(string examType);
 
-        // Or retrieving examinations for a given patient
         Task<List<Examination>> GetByPatientIdAsync(int patientId);
     }
 }

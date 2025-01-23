@@ -50,7 +50,6 @@ namespace MedicalSystemApp.Repositories
             }
         }
 
-        // Additional custom method: search by LastName or OIB
         public async Task<List<Patient>> SearchAsync(string searchTerm)
         {
             if (string.IsNullOrWhiteSpace(searchTerm))

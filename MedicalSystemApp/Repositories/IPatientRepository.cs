@@ -12,7 +12,6 @@ namespace MedicalSystemApp.Repositories
         Task UpdateAsync(Patient patient);
         Task DeleteAsync(int id);
 
-        // Additional methods: e.g. searching by OIB or LastName
         Task<List<Patient>> SearchAsync(string searchTerm);
     }
 }

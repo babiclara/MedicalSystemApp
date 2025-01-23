@@ -18,18 +18,12 @@ namespace MedicalSystemApp.Repositories
 
         public async Task<Examination?> GetByIdAsync(int id)
         {
-            // If you want to include images and patient eagerly:
-            // return await _db.Examinations
-            //    .Include(e => e.Patient)
-            //    .Include(e => e.ExaminationImages)
-            //    .FirstOrDefaultAsync(e => e.Id == id);
 
             return await _db.Examinations.FindAsync(id);
         }
 
         public async Task<List<Examination>> GetAllAsync()
         {
-            // Possibly .Include(e => e.Patient).Include(e => e.ExaminationImages)
             return await _db.Examinations.ToListAsync();
         }
 
@@ -55,16 +49,13 @@ namespace MedicalSystemApp.Repositories
             }
         }
 
-        // Example: get by exam type
         public async Task<List<Examination>> GetByTypeAsync(string examType)
         {
-            // e.g. "KRV", "GP", "CT", etc. 
             return await _db.Examinations
                 .Where(e => e.ExaminationType == examType)
                 .ToListAsync();
         }
 
-        // Example: get by patient ID
         public async Task<List<Examination>> GetByPatientIdAsync(int patientId)
         {
             return await _db.Examinations

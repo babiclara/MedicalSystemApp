@@ -1,4 +1,4 @@
-﻿@model string // or any custom view model
+﻿@model string 
 
 @{
     ViewData["Title"] = "Patients CSV Export";
@@ -12,8 +12,6 @@
 </div>
 
 <p>
-    <!-- If your ExportCsv action actually returns a File() directly,
-         you wouldn't need this. But if you want a link: -->
     <a asp-action="DownloadCsv" class="btn btn-success">Download CSV</a>
 </p>
 

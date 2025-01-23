@@ -18,17 +18,12 @@ namespace MedicalSystemApp.Repositories
 
         public async Task<ExaminationImage?> GetByIdAsync(int id)
         {
-            // Optionally .Include(ei => ei.Examination) if you want to auto-load the related Examination
-            // return await _db.ExaminationImages
-            //     .Include(ei => ei.Examination)
-            //     .FirstOrDefaultAsync(ei => ei.Id == id);
 
             return await _db.ExaminationImages.FindAsync(id);
         }
 
         public async Task<List<ExaminationImage>> GetAllAsync()
         {
-            // Possibly .Include(ei => ei.Examination) for related data
             return await _db.ExaminationImages.ToListAsync();
         }
 
@@ -54,10 +49,8 @@ namespace MedicalSystemApp.Repositories
             }
         }
 
-        // Implementation of the optional method
         public async Task<List<ExaminationImage>> GetByExaminationIdAsync(int examId)
         {
-            // Optionally .Include(ei => ei.Examination)
             return await _db.ExaminationImages
                 .Where(ei => ei.ExaminationId == examId)
                 .ToListAsync();

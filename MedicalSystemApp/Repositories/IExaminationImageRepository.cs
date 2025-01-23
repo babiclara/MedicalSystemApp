@@ -12,7 +12,6 @@ namespace MedicalSystemApp.Repositories
         Task UpdateAsync(ExaminationImage image);
         Task DeleteAsync(int id);
 
-        // Optionally, if you want to get images by Examination ID
         Task<List<ExaminationImage>> GetByExaminationIdAsync(int examinationId);
     }
 }

@@ -63,7 +63,6 @@ namespace MedicalSystemApp.Controllers
                 await imageFile.CopyToAsync(stream);
             }
 
-            // Save the relative path to the database
             image.ImagePath = "/uploads/" + uniqueFileName;
 
             if (!ModelState.IsValid)
@@ -105,21 +104,17 @@ namespace MedicalSystemApp.Controllers
 
             if (imageFile != null && imageFile.Length > 0)
             {
-                // Define the uploads folder
                 var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
                 Directory.CreateDirectory(uploadsFolder);
 
-                // Generate unique file name
                 var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(imageFile.FileName);
                 var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                // Save the file to the server
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await imageFile.CopyToAsync(stream);
                 }
 
-                // Store relative path to the image in database
                 image.ImagePath = "/uploads/" + uniqueFileName;
             }
 
@@ -156,7 +151,6 @@ namespace MedicalSystemApp.Controllers
                 return NotFound();
             }
 
-            // Delete the physical file from the server
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", image.ImagePath.TrimStart('/'));
             if (System.IO.File.Exists(filePath))
             {

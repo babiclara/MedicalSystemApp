@@ -6,7 +6,6 @@
 
 <h1 class="mb-4">Patients</h1>
 
-<!-- A simple search form (if you have a Search action in your controller) -->
 <form method="get" action="/Patients/Search" class="row g-3 mb-3">
     <div class="col-auto">
         <input type="text" name="query" class="form-control" placeholder="Search by OIB or Last Name" />
@@ -16,7 +15,6 @@
     </div>
 </form>
 
-<!-- Link to export CSV (if implemented) -->
 <a asp-action="ExportCsv" class="btn btn-success mb-3">Export Patients as CSV</a>
 
 <table class="table table-striped table-hover">

@@ -12,7 +12,5 @@ namespace MedicalSystemApp.Repositories
         Task UpdateAsync(MedicalRecord record);
         Task DeleteAsync(int id);
 
-        // If you want advanced queries (like searching by IllnessName), add them here
-        // Task<List<MedicalRecord>> SearchByIllnessName(string illness);
     }
 }

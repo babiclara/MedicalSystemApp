@@ -18,18 +18,11 @@ namespace MedicalSystemApp.Repositories
 
         public async Task<Prescription?> GetByIdAsync(int id)
         {
-            // If you want to include Patient data automatically:
-            // return await _db.Prescriptions
-            //     .Include(p => p.Patient)
-            //     .FirstOrDefaultAsync(pr => pr.Id == id);
-
-            // Otherwise (lazy loading or no related data needed):
             return await _db.Prescriptions.FindAsync(id);
         }
 
         public async Task<List<Prescription>> GetAllAsync()
         {
-            // Optionally .Include(p => p.Patient) if you want
             return await _db.Prescriptions.ToListAsync();
         }
 

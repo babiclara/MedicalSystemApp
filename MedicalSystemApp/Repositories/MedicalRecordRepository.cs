@@ -18,18 +18,11 @@ namespace MedicalSystemApp.Repositories
 
         public async Task<MedicalRecord?> GetByIdAsync(int id)
         {
-            // If you want to include Patient data automatically:
-            // return await _db.MedicalRecords
-            //     .Include(m => m.Patient)
-            //     .FirstOrDefaultAsync(mr => mr.Id == id);
-
-            // Otherwise just do FindAsync (and rely on lazy loading if you have it set up):
             return await _db.MedicalRecords.FindAsync(id);
         }
 
         public async Task<List<MedicalRecord>> GetAllAsync()
         {
-            // You could do .Include(m => m.Patient) if you want the patient each time.
             return await _db.MedicalRecords.ToListAsync();
         }
 

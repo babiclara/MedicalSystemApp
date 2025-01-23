@@ -12,6 +12,5 @@ namespace MedicalSystemApp.Repositories
         Task UpdateAsync(Prescription prescription);
         Task DeleteAsync(int id);
 
-        // Optionally, add a search method or specialized queries if needed
     }
 }
