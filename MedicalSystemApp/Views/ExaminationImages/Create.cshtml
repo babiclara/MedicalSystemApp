@@ -7,15 +7,18 @@
 <h1>Create Examination Image</h1>
 <hr />
 
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <div class="mb-3">
-        <label asp-for="ImagePath" class="form-label fw-bold"></label>
-        <input asp-for="ImagePath" class="form-control" />
-        <span asp-validation-for="ImagePath" class="text-danger"></span>
+        <label class="form-label fw-bold">Upload Image</label>
+        <input type="file" id="imageFile" name="imageFile" class="form-control" required onchange="updateImagePath()" />
     </div>
 
+    <!-- Hidden field to store the image path -->
+    <input type="hidden" asp-for="ImagePath" id="ImagePath" />
+
+    <!-- Examination Dropdown -->
     <div class="mb-3">
         <label asp-for="ExaminationId" class="form-label fw-bold"></label>
         <select asp-for="ExaminationId" class="form-select"
@@ -28,3 +31,17 @@
     <button type="submit" class="btn btn-primary">Create</button>
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function updateImagePath() {
+            var fileInput = document.getElementById('imageFile');
+            if (fileInput.files.length > 0) {
+                var fileName = fileInput.files[0].name;
+                document.getElementById('ImagePath').value = "/uploads/" + fileName;
+            }
+        }
+    </script>
+}

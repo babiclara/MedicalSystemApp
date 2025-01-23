@@ -9,7 +9,7 @@ namespace MedicalSystemApp.Models
 
         [Required]
         [StringLength(250)]
-        public string ImagePath { get; set; }
+        public string? ImagePath { get; set; }
 
         public int ExaminationId { get; set; }
 
