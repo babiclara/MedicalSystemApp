@@ -1,23 +1,26 @@
-﻿@model MedicalSystemApp.Models.MedicalRecord
+﻿@model MedicalSystemApp.Models.Prescription
 
 @{
-    ViewData["Title"] = "Medical Record Details";
+    ViewData["Title"] = "Prescription Details";
 }
 
-<h1 class="mb-3">Medical Record Details</h1>
+<h1 class="mb-3">Prescription Details</h1>
 
 <div class="card mb-4">
     <div class="card-body">
-        <h4 class="card-title">@Model.IllnessName</h4>
+        <h4 class="card-title">@Model.MedicationName</h4>
         <dl class="row">
-            <dt class="col-sm-3">Start Date</dt>
-            <dd class="col-sm-9">@Model.StartDate.ToShortDateString()</dd>
+            <dt class="col-sm-3">Medication Name</dt>
+            <dd class="col-sm-9">@Model.MedicationName</dd>
 
-            <dt class="col-sm-3">End Date</dt>
-            <dd class="col-sm-9">@(Model.EndDate?.ToShortDateString() ?? "Ongoing")</dd>
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9">@Model.Description</dd>
 
-            <dt class="col-sm-3">Patient</dt>
-            <dd class="col-sm-9">@Model.Patient?.LastName</dd>
+            <dt class="col-sm-3">Date Prescribed</dt>
+            <dd class="col-sm-9">@Model.DatePrescribed.ToShortDateString()</dd>
+
+            <dt class="col-sm-3">Patient ID</dt>
+            <dd class="col-sm-9">@Model.PatientId</dd>
         </dl>
     </div>
 </div>
@@ -26,9 +29,10 @@
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
 
+<!-- Associated Data -->
 @if (Model.Patient != null)
 {
-    <h4>Patient Details</h4>
+    <h4>Patient Information</h4>
     <ul class="list-group mb-3">
         <li class="list-group-item">
             <strong>Name:</strong> @Model.Patient.FirstName @Model.Patient.LastName

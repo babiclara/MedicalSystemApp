@@ -7,25 +7,36 @@
 <h1>Examination Details</h1>
 
 <dl class="dl-horizontal">
-    <dt>Date/Time</dt>
-    <dd>@Model.ExaminationDateTime</dd>
+    <dt>Date</dt>
+    <dd>@Model.ExaminationDateTime.ToString("yyyy-MM-dd")</dd>
 
     <dt>Type</dt>
     <dd>@Model.ExaminationType</dd>
 
-    <dt>PatientId</dt>
+    <dt>Patient ID</dt>
     <dd>@Model.PatientId</dd>
 </dl>
 
 @if (Model.ExaminationImages != null && Model.ExaminationImages.Any())
 {
     <h4>Examination Images</h4>
-    <ul>
+    <div class="row">
         @foreach (var image in Model.ExaminationImages)
         {
-            <li>@image.ImagePath</li>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="@image.ImagePath" class="card-img-top img-fluid" alt="Examination Image">
+                    <div class="card-body">
+                        <p class="card-text"><strong>Image Path:</strong> @image.ImagePath</p>
+                    </div>
+                </div>
+            </div>
         }
-    </ul>
+    </div>
+}
+else
+{
+    <p>No images available for this examination.</p>
 }
 
 <a asp-action="Index" class="btn btn-secondary">Back to List</a>
