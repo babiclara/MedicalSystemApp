@@ -90,14 +90,20 @@ namespace MedicalSystemApp.Controllers
             return View(patient);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _patientRepo.DeleteAsync(id);
+            var patient = await _patientRepo.GetByIdAsync(id);
+            if (patient == null)
+            {
+                return NotFound();
+            }
 
+            await _patientRepo.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
+
 
         [HttpGet]
         public async Task<IActionResult> ExportCsv()

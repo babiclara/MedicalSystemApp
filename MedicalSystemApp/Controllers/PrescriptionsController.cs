@@ -99,11 +99,16 @@ namespace MedicalSystemApp.Controllers
 
             return View(prescription);
         }
-
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var prescription = await _prescriptionRepo.GetByIdAsync(id);
+            if (prescription == null)
+            {
+                return NotFound();
+            }
+
             await _prescriptionRepo.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }

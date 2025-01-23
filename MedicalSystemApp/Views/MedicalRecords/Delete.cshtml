@@ -4,31 +4,38 @@
     ViewData["Title"] = "Delete Medical Record";
 }
 
-<h1>Delete Medical Record</h1>
-<hr />
+<h1 class="mb-4">Delete Medical Record</h1>
 
 <div class="alert alert-warning" role="alert">
     <h4>Are you sure you want to delete this medical record?</h4>
+    <p>This action cannot be undone.</p>
 </div>
 
-<div class="mb-3">
-    <dl class="row">
-        <dt class="col-sm-3">Illness Name</dt>
-        <dd class="col-sm-9">@Model.IllnessName</dd>
+<div class="card mb-4">
+    <div class="card-body">
+        <h4 class="card-title">@Model.IllnessName</h4>
+        <dl class="row">
+            <dt class="col-sm-3">Illness Name</dt>
+            <dd class="col-sm-9">@Model.IllnessName</dd>
 
-        <dt class="col-sm-3">Start Date</dt>
-        <dd class="col-sm-9">@Model.StartDate.ToShortDateString()</dd>
+            <dt class="col-sm-3">Start Date</dt>
+            <dd class="col-sm-9">@Model.StartDate.ToString("yyyy-MM-dd")</dd>
 
-        <dt class="col-sm-3">End Date</dt>
-        <dd class="col-sm-9">@(Model.EndDate?.ToShortDateString() ?? "ongoing")</dd>
+            <dt class="col-sm-3">End Date</dt>
+            <dd class="col-sm-9">@(Model.EndDate?.ToString("yyyy-MM-dd") ?? "Ongoing")</dd>
 
-        <dt class="col-sm-3">Patient</dt>
-        <dd class="col-sm-9">@Model.Patient?.LastName</dd>
-    </dl>
+            <dt class="col-sm-3">Patient</dt>
+            <dd class="col-sm-9">@Model.Patient?.LastName</dd>
+        </dl>
+    </div>
 </div>
 
-<form asp-action="DeleteConfirmed" method="post">
+<form asp-action="DeleteConfirmed" asp-route-id="@Model.Id" method="post">
     <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

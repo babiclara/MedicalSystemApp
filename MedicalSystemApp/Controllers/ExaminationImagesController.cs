@@ -146,25 +146,27 @@ namespace MedicalSystemApp.Controllers
             return View(image);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var image = await _imageRepo.GetByIdAsync(id);
-            if (image != null)
+            if (image == null)
             {
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", image.ImagePath.TrimStart('/'));
-
-                if (System.IO.File.Exists(filePath))
-                {
-                    System.IO.File.Delete(filePath);
-                }
-
-                await _imageRepo.DeleteAsync(id);
+                return NotFound();
             }
 
+            // Delete the physical file from the server
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", image.ImagePath.TrimStart('/'));
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
+
+            await _imageRepo.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
+
 
         private async Task<bool> ExaminationImageExists(int id)
         {

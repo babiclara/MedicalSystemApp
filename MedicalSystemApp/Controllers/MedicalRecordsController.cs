@@ -109,14 +109,20 @@ namespace MedicalSystemApp.Controllers
 
             return View(record);
         }
-
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var record = await _recordRepo.GetByIdAsync(id);
+            if (record == null)
+            {
+                return NotFound();
+            }
+
             await _recordRepo.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
+
 
         private async Task<bool> MedicalRecordExists(int id)
         {
