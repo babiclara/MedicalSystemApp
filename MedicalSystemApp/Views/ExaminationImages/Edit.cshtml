@@ -1,0 +1,41 @@
+﻿@model MedicalSystemApp.Models.ExaminationImage
+
+@{
+    ViewData["Title"] = "Edit Examination Image";
+}
+
+<h1>Edit Examination Image</h1>
+<hr />
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data" class="row g-3">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="col-md-6">
+        <label asp-for="ImagePath" class="form-label fw-bold"></label>
+        <input asp-for="ImagePath" class="form-control" readonly />
+        <span asp-validation-for="ImagePath" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label fw-bold">Upload New Image</label>
+        <input type="file" name="imageFile" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="ExaminationId" class="form-label fw-bold"></label>
+        <select asp-for="ExaminationId" class="form-select"
+                asp-items="@(new SelectList(ViewBag.Examinations, "Id", "ExaminationType", Model.ExaminationId))">
+            <option value="">-- Select an Examination --</option>
+        </select>
+        <span asp-validation-for="ExaminationId" class="text-danger"></span>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

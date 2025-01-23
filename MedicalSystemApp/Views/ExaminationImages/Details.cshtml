@@ -1,0 +1,34 @@
+﻿@model MedicalSystemApp.Models.ExaminationImage
+
+@{
+    ViewData["Title"] = "Examination Image Details";
+}
+
+<h1>Examination Image Details</h1>
+
+<dl class="dl-horizontal">
+    <dt>Image Path</dt>
+    <dd>
+        <img src="@Model.ImagePath" alt="Examination Image" class="img-thumbnail" style="max-width: 400px;" />
+    </dd>
+
+    <dt>Examination ID</dt>
+    <dd>@Model.ExaminationId</dd>
+</dl>
+
+@if (Model.Examination != null)
+{
+        <h4>Related Examination</h4>
+        <dl class="dl-horizontal">
+            <dt>Type</dt>
+            <dd>@Model.Examination.ExaminationType</dd>
+
+            <dt>Date</dt>
+            <dd>@Model.Examination.ExaminationDateTime.ToString("yyyy-MM-dd")</dd>
+
+            <dt>Patient ID</dt>
+            <dd>@Model.Examination.PatientId</dd>
+        </dl>
+}
+
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>
